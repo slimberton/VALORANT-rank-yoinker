@@ -36,8 +36,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       
+      #Required for python 3.12, Version <=6.15 incompatible.
       - name: Install cx_Freeze
-        run: pip install cx_Freeze
+        run: pip install https://github.com/marcelotduarte/cx_Freeze/archive/refs/tags/6.16.0-dev9.tar.gz
       
       - name: Build Native Executable
         run: python setup.py build
