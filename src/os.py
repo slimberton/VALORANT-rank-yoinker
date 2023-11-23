@@ -1,23 +1,26 @@
 import platform
 
-# This function detects the OS the user is running and if Valorant is officially supported in said platform
-# returns ["operating system" (string), "Runs Valorant" (bool)]
+# This function detects the OS the user is running and if Valorant is officially supported on that platform
+# Returns ["operating system" (string), "Runs Valorant" (bool)]
 def get_os():   
     system = platform.system()
     
     if system == "Windows":
-        # Detects if Windows version **is not** 10 or 11
-        if platform.win32_ver()[0] != str(10 or 11):
-            return f"Windows {platform.win32_ver()[0]} {platform.win32_edition()} {platform.win32_ver()[1]}", False
-        
-        # Workaround for Windows 11 being detected as Windows 10, might not be necessary in the future
-        # https://github.com/python/cpython/issues/89545
-        if int(platform.win32_ver()[1].split(".")[-1]) >= 22000:
-            return f"Windows 11 {platform.win32_edition()} {platform.win32_ver()[1]}", True
-        else:
+        win_version = platform.win32_ver()[0]
+        win_build_number = int(platform.win32_ver()[1].split(".")[-1])
+        # Check for Windows 10
+        if win_version == '10':
+            # Specific check for Windows 11 using build number (workaround for misidentification issue)
+            if win_build_number >= 22000:
+                return f"Windows 11 {platform.win32_edition()} {platform.win32_ver()[1]}", True
             return f"Windows 10 {platform.win32_edition()} {platform.win32_ver()[1]}", True
-        
+        # Check for Windows 11 (assuming direct identification is possible in the future)
+        elif win_version == '11':
+            return f"Windows 11 {platform.win32_edition()} {platform.win32_ver()[1]}", True
+        # Other Windows versions
+        else:
+            return f"Unsupported Windows version: Windows {win_version} {platform.win32_edition()} {platform.win32_ver()[1]}", False
 
-    # Handles other Operating systems, such as Linux or Mac OS
+    # Non-Windows operating systems
     else:
         return "Non-Windows operating system", False
