@@ -41,7 +41,7 @@ jobs:
         run: pip install --index-url https://lief.s3-website.fr-par.scw.cloud/latest lief==0.14.0
       #Required for python 3.12, Version <=6.15 incompatible.
       - name: Install cx_Freeze
-        run: pip install --index-url https://github.com/marcelotduarte/cx_Freeze/archive/refs/tags/6.16.0-dev9.tar.gz
+        run: pip install https://github.com/marcelotduarte/cx_Freeze/archive/refs/tags/6.16.0-dev9.tar.gz
       
       - name: Build Native Executable
         run: python setup.py build
